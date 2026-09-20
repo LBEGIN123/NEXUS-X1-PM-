@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NEXUS X1 跨平台竞技手柄产品经理面试方案，包含竞品研究、产品方案、交互原型和 PRD。">
+  <title>NEXUS X1 跨平台竞技手柄 PM 面试方案</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path>
+    </symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24">
+      <path d="m8 5 11 7-11 7Z"></path>
+    </symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+    </symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1"></circle>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </symbol>
+    <symbol id="icon-zap" viewBox="0 0 24 24">
+      <path d="M13 2 3 14h9l-1 8 10-12h-9Z"></path>
+    </symbol>
+    <symbol id="icon-layers" viewBox="0 0 24 24">
+      <path d="m12 2 9 5-9 5-9-5 9-5Z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 17 9 5 9-5"></path>
+    </symbol>
+    <symbol id="icon-file" viewBox="0 0 24 24">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+      <path d="M14 2v6h6"></path><path d="M8 13h8"></path><path d="M8 17h6"></path>
+    </symbol>
+    <symbol id="icon-monitor" viewBox="0 0 24 24">
+      <rect width="20" height="14" x="2" y="3" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path>
+    </symbol>
+    <symbol id="icon-smartphone" viewBox="0 0 24 24">
+      <rect width="14" height="20" x="5" y="2" rx="2"></rect><path d="M12 18h.01"></path>
+    </symbol>
+    <symbol id="icon-gamepad" viewBox="0 0 24 24">
+      <path d="M6 11h4"></path><path d="M8 9v4"></path>
+      <path d="M15 12h.01"></path><path d="M18 10h.01"></path>
+      <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258A4 4 0 0 0 17.32 5Z"></path>
+    </symbol>
+  </svg>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#top" aria-label="返回顶部">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>NEXUS <strong>X1</strong></span>
+        </a>
+        <nav class="nav" aria-label="案例导航">
+          <a href="#research">01 调研</a>
+          <a href="#product">02 产品方案</a>
+          <a href="#prototype">03 Axure 原型</a>
+          <a href="#prd">04 PRD</a>
+        </nav>
+        <div class="top-meta">
+          <span class="status-pill"><i class="status-dot"></i> PM CASE / 2026</span>
+          <span class="status-pill">INTERVIEW BUILD</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="container">
+          <div class="hero-grid">
+            <div class="hero-copy-wrap reveal">
+              <div class="hero-kicker"><span class="index">PM/01</span> CROSS-PLATFORM CONTROLLER</div>
+              <h1>NEXUS <span>X1</span></h1>
+              <p class="hero-copy">把操作手感从一台设备带到下一台设备。一个跨 PC、主机与移动端的高阶竞技手柄方案，用平台身份、配置同步与可验证输入链路解决真正的跨端摩擦。</p>
+              <div class="hero-actions">
+                <a class="button button-primary" href="prototype.html">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-play"></use></svg>
+                  打开可互动原型
+                </a>
+                <a class="button button-quiet" href="docs/跨平台竞技手柄_PRD.docx">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-file"></use></svg>
+                  下载 PRD
+                </a>
+              </div>
+              <div class="hero-stats">
+                <div class="hero-stat"><strong>5</strong><span>平台身份与连接场景</span></div>
+                <div class="hero-stat"><strong>5s</strong><span>平台切换中位目标</span></div>
+                <div class="hero-stat"><strong>1</strong><span>账号，一套手感</span></div>
+              </div>
+            </div>
+
+            <div class="product-stage reveal" aria-label="NEXUS X1 产品交互模型">
+              <div class="stage-label">TARGET PLATFORM / <strong data-platform-label>WINDOWS</strong></div>
+              <div data-controller-mount></div>
+              <div class="product-callout callout-a"><strong>TMR STICKS</strong>4096 级输出与低漂移风险</div>
+              <div class="product-callout callout-b"><strong>NEXUS LINK</strong>底座中继 / 充电 / 平台识别</div>
+              <div class="stage-scale"><i></i>1:1 DEVICE STUDY</div>
+              <div class="platform-switcher" aria-label="切换演示平台">
+                <button class="platform-button is-active" type="button" data-platform="pc"><i></i>PC</button>
+                <button class="platform-button" type="button" data-platform="xbox"><i></i>XBOX</button>
+                <button class="platform-button" type="button" data-platform="switch"><i></i>SWITCH</button>
+                <button class="platform-button" type="button" data-platform="steamos"><i></i>STEAM</button>
+                <button class="platform-button" type="button" data-platform="mobile"><i></i>MOBILE</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sequence reveal" aria-label="案例结构">
+            <a class="sequence-item is-active" href="#research"><span>01</span><strong>竞品 / 用户调研</strong></a>
+            <a class="sequence-item" href="#product"><span>02</span><strong>产品方案</strong></a>
+            <a class="sequence-item" href="#prototype"><span>03</span><strong>Axure 原型</strong></a>
+            <a class="sequence-item" href="#prd"><span>04</span><strong>PRD / 上市</strong></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="research">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">01 / Research</span>
+              <h2>问题不在“支持几个平台”，而在玩家跨过去以后还是不是同一套手感。</h2>
+            </div>
+            <p>桌面研究覆盖官方旗舰与国产挑战者。用户研究分为已完成的公开信息归纳和待验证的一手研究方案，避免把假设包装成结论。</p>
+          </div>
+
+          <div class="metric-strip reveal">
+            <div class="metric"><strong>4</strong><span>核心竞品官方页面拆解</span><small>Xbox / PlayStation / 8BitDo / GameSir</small></div>
+            <div class="metric"><strong>240</strong><span>建议有效问卷样本</span><small>面试前需替换为真实回收数据</small></div>
+            <div class="metric"><strong>12</strong><span>建议深访人数</span><small>跨端 45% / 竞技 35% / 移动 20%</small></div>
+            <div class="metric"><strong>5</strong><span>关键待验证假设</span><small>切换、同步、延迟、价格、维修</small></div>
+          </div>
+
+          <div class="notice reveal">
+            <svg class="icon" aria-hidden="true"><use href="#icon-target"></use></svg>
+            <div><strong>证据口径：</strong>竞品能力是官网公开事实；行为频率与支付意愿是研究假设。面试展示时，第一页主动说明这一点，反而更能体现 PM 的证据意识。</div>
+          </div>
+
+          <div class="matrix-wrap reveal" aria-label="竞品能力矩阵">
+            <table>
+              <thead>
+                <tr>
+                  <th>竞品</th>
+                  <th>优势</th>
+                  <th>公开平台与连接</th>
+                  <th>可攻击点</th>
+                  <th>NEXUS 策略</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Xbox Elite Series 2</strong><br><span class="tag">官方旗舰</span></td>
+                  <td>可调张力摇杆、短行程扳机锁、机身 3 组配置、生态完整。</td>
+                  <td>Xbox / Windows / iOS / Android；Xbox Wireless、蓝牙、USB-C。</td>
+                  <td>高级软件能力集中在 Xbox 与 Windows，跨生态后配置和状态不连续。</td>
+                  <td rowspan="4"><strong>不拼单生态最强，拼跨生态连续性。</strong><br><br>平台身份、账号配置、输入链路测试成为一条统一体验，而不是散落在不同软件中。</td>
+                </tr>
+                <tr>
+                  <td><strong>DualSense Edge</strong><br><span class="tag">体验旗舰</span></td>
+                  <td>触觉反馈、自适应扳机、游戏内快捷调参和 PS5 原生能力。</td>
+                  <td>PS5 / Windows；蓝牙、USB-C。</td>
+                  <td>PC 高级反馈受有线与游戏支持限制，平台广度有限，价格高。</td>
+                </tr>
+                <tr>
+                  <td><strong>8BitDo Ultimate 2</strong><br><span class="tag">跨平台旗舰</span></td>
+                  <td>TMR 摇杆、霍尔扳机、1000Hz、双扳机模式、充电底座。</td>
+                  <td>Windows / Android / SteamOS / Apple；2.4G、蓝牙、USB-C。</td>
+                  <td>参数价值强，但连接模式、软件和平台布局仍需玩家自行建立规则。</td>
+                </tr>
+                <tr>
+                  <td><strong>GameSir G7 Pro</strong><br><span class="tag">竞技参数</span></td>
+                  <td>TMR 磁阻摇杆、双模式扳机、四振动马达、磁吸面盖、1000Hz。</td>
+                  <td>Xbox / PC / Mobile；Xbox 有线，PC 与移动无线。</td>
+                  <td>电竞参数表达强，但跨设备身份与配置恢复仍弱。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="insight-grid">
+            <article class="insight reveal">
+              <span class="insight-index">INSIGHT / 01</span>
+              <h3>切换成本高于配对成功</h3>
+              <p>玩家能学会配对，却无法记住每台设备的上次通道、布局和配置。产品需要把“去哪里玩”变成唯一选择，其余状态自动恢复。</p>
+            </article>
+            <article class="insight reveal">
+              <span class="insight-index">INSIGHT / 02</span>
+              <h3>配置属于玩家，不应该属于平台</h3>
+              <p>官方软件和挑战者工具各自保存手感。账号同步、版本回滚和本地离线可用，才能让配置成为长期资产。</p>
+            </article>
+            <article class="insight reveal">
+              <span class="insight-index">INSIGHT / 03</span>
+              <h3>参数需要变成可感知的结论</h3>
+              <p>1000Hz 和 4ms 不是普通玩家能判断的体验。输入测试应该直接告诉玩家当前是竞技、稳定还是需要优化。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="product">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">02 / Product Strategy</span>
+              <h2>不是堆更多功能，而是建立一层平台身份。</h2>
+            </div>
+            <p>产品由平台身份层、配置身份层和可验证链路层组成。第一版明确完成无线平台边界，Xbox 采用有线兼容，避免用未完成的授权承诺换营销声量。</p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature reveal">
+              <span class="feature-index">01 / IDENTITY</span>
+              <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#icon-layers"></use></svg></div>
+              <h3>平台身份与 0 秒配对</h3>
+              <p>自动读取目标平台、上次通道和配置，玩家只确认一次，后续切换在 5 秒内完成。</p>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-index">02 / PROFILE</span>
+              <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#icon-link"></use></svg></div>
+              <h3>配置随账号同步</h3>
+              <p>机身 5 组快捷配置，账号保存跨平台个人配置。离线可用，冲突不自动覆盖。</p>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-index">03 / PROOF</span>
+              <div class="feature-icon"><svg class="icon" aria-hidden="true"><use href="#icon-zap"></use></svg></div>
+              <h3>可验证竞技链路</h3>
+              <p>TMR 摇杆、双模式扳机、1000Hz 目标与输入测试。低延迟被证明，不被口号代替。</p>
+            </article>
+          </div>
+
+          <div class="scope-grid">
+            <article class="scope-column must reveal">
+              <span class="tag tag-orange">V1 MUST</span>
+              <h3>必须在第一版交付</h3>
+              <ul class="scope-list">
+                <li>PC / SteamOS 三模，Switch 与移动端蓝牙</li>
+                <li>Xbox 有线兼容与明确限制说明</li>
+                <li>5 个机身配置、账号同步和回滚</li>
+                <li>双模式扳机与 TMR 摇杆</li>
+                <li>输入测试与去敏诊断日志</li>
+              </ul>
+            </article>
+            <article class="scope-column later reveal">
+              <span class="tag tag-cyan">V1.1+</span>
+              <h3>验证后扩展</h3>
+              <ul class="scope-list">
+                <li>Xbox 官方无线授权版本</li>
+                <li>游戏自动识别与社区配置市场</li>
+                <li>移动端体感高级校准</li>
+                <li>赛事专用快速切换模式</li>
+                <li>面盖与模块个性化</li>
+              </ul>
+            </article>
+            <article class="scope-column no reveal">
+              <span class="tag">NOT NOW</span>
+              <h3>明确克制</h3>
+              <ul class="scope-list">
+                <li>手柄屏幕与冗余动画</li>
+                <li>第一版 PS5 原生无线</li>
+                <li>开放脚本运行环境</li>
+                <li>用户自行拆解整机</li>
+                <li>首年订阅制高级功能</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="roadmap reveal" aria-label="产品路线">
+            <article class="phase"><span>PHASE 0 / 8 WEEKS</span><h4>研究验证</h4><p>真实问卷、深访、手板握持、定价与 SKU 决策。</p></article>
+            <article class="phase"><span>PHASE 1 / 16 WEEKS</span><h4>EVT</h4><p>无线、延迟、续航、模块、App 基础闭环。</p></article>
+            <article class="phase"><span>PHASE 2 / 12 WEEKS</span><h4>DVT</h4><p>认证样机、100 名种子用户、供应链冻结。</p></article>
+            <article class="phase"><span>PHASE 3 / 8 WEEKS</span><h4>PVT</h4><p>量产验证、包装、评测与首发模板。</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-accent" id="prototype">
+        <div class="container prototype-promo">
+          <div class="reveal">
+            <span class="eyebrow">03 / Interactive Prototype</span>
+            <h2>把 PRD 争议放到原型里验证。</h2>
+            <p class="lead" style="margin-top:20px">原型不是视觉稿翻页，而是一个带状态的设备中心：切换平台会改变连接通道、配置、延迟、灯带；配对覆盖层会实际推进；调参会影响手柄模型；输入测试会产出可执行结论。</p>
+            <ol class="flow-list">
+              <li><b>1</b>平台切换：PC、Xbox、Switch、SteamOS、Mobile</li>
+              <li><b>2</b>0 秒配对：唤醒、识别、连接、恢复、检查</li>
+              <li><b>3</b>手感实验室：摇杆、扳机、映射、振动</li>
+              <li><b>4</b>输入测试：实时状态、评级、优化建议</li>
+              <li><b>5</b>移动伙伴：同一账号下的配置连续性</li>
+            </ol>
+            <div class="hero-actions">
+              <a class="button button-primary" href="prototype.html">
+                <svg class="icon" aria-hidden="true"><use href="#icon-play"></use></svg>
+                进入可交互原型
+              </a>
+              <a class="button button-quiet" href="docs/Axure原型还原指南.md">
+                <svg class="icon" aria-hidden="true"><use href="#icon-monitor"></use></svg>
+                查看 Axure 还原说明
+              </a>
+            </div>
+            <p class="lead" style="margin-top:16px;font-size:13px">当前环境未安装 Axure RP；浏览器原型用于直接演示，Axure 指南用于还原原生工程。</p>
+          </div>
+
+          <div class="prototype-frame reveal">
+            <div class="frame-bar"><span>AXURE REPLICA / DEVICE CENTER</span><span class="frame-dots"><i></i><i></i><i></i></span></div>
+            <div class="frame-canvas">
+              <div class="mini-panel"><span>CONNECTED TARGET</span><strong data-platform-label>WINDOWS</strong><span data-profile-label>FPS_NEON / 2.4G</span></div>
+              <div data-controller-mount></div>
+              <div class="mini-platforms">
+                <button class="mini-platform active" type="button" data-platform="pc">PC</button>
+                <button class="mini-platform" type="button" data-platform="xbox">XB</button>
+                <button class="mini-platform" type="button" data-platform="switch">SW</button>
+                <button class="mini-platform" type="button" data-platform="steamos">ST</button>
+                <button class="mini-platform" type="button" data-platform="mobile">MO</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="prd">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <span class="eyebrow">04 / PRD & Delivery</span>
+              <h2>每条需求都能追到用户任务、边界和验收。</h2>
+            </div>
+            <p>PRD 覆盖连接边界、硬件规格、App 信息架构、关键状态、异常降级、埋点、验收和 44 周上市节奏，并附带 Axure 页面树与交互检查表。</p>
+          </div>
+
+          <div class="board-grid">
+            <article class="board reveal">
+              <h3><svg class="icon" aria-hidden="true"><use href="#icon-file"></use></svg> P0 需求快照</h3>
+              <div class="requirement-list">
+                <div class="requirement-row"><b>FR-001</b><span>平台身份与切换</span><em>&le; 5s</em></div>
+                <div class="requirement-row"><b>FR-002</b><span>0 秒配对体验</span><em>&le; 20s</em></div>
+                <div class="requirement-row"><b>FR-003</b><span>5 个机身配置</span><em>RECALL</em></div>
+                <div class="requirement-row"><b>FR-007</b><span>输入链路测试</span><em>3 GRADES</em></div>
+                <div class="requirement-row"><b>FR-008</b><span>账号同步与导入导出</span><em>OFFLINE</em></div>
+                <div class="requirement-row"><b>FR-010</b><span>售后去敏诊断</span><em>30 DAYS</em></div>
+              </div>
+            </article>
+            <article class="board reveal">
+              <h3><svg class="icon" aria-hidden="true"><use href="#icon-target"></use></svg> 决策门槛</h3>
+              <div class="data-stack">
+                <div class="data-row"><span>多平台高频用户占比</span><strong class="accent">&ge; 35%</strong></div>
+                <div class="data-row"><span>首次连接无帮助完成</span><strong class="accent">&ge; 85%</strong></div>
+                <div class="data-row"><span>配置同步拉起 4 周留存</span><strong>&ge; +15%</strong></div>
+                <div class="data-row"><span>核心版支付意愿</span><strong>&ge; 55%</strong></div>
+                <div class="data-row"><span>12 个月摇杆漂移报修</span><strong>&lt; 0.8%</strong></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="doc-grid">
+            <article class="doc-card reveal">
+              <svg class="icon" aria-hidden="true"><use href="#icon-file"></use></svg>
+              <h3>完整 PRD</h3>
+              <p>需求、平台矩阵、硬件、软件、异常、埋点、实验、验收和风险。</p>
+              <a class="button button-small" href="docs/PRD.md">打开 Markdown</a>
+            </article>
+            <article class="doc-card reveal">
+              <svg class="icon" aria-hidden="true"><use href="#icon-users"></use></svg>
+              <h3>调研包</h3>
+              <p>公开竞品矩阵、样本配额、访谈任务、关键假设与决策门槛。</p>
+              <a class="button button-small" href="docs/竞品与用户研究.md">打开研究文档</a>
+            </article>
+            <article class="doc-card reveal">
+              <svg class="icon" aria-hidden="true"><use href="#icon-monitor"></use></svg>
+              <h3>Axure 还原</h3>
+              <p>画布、组件、全局变量、页面树、状态和演示路径。</p>
+              <a class="button button-small" href="docs/Axure原型还原指南.md">打开还原指南</a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>
+          <div class="brand" style="margin-bottom:12px"><span class="brand-mark"></span><span>NEXUS <strong>X1</strong></span></div>
+          <div>Product manager interview case / concept build</div>
+        </div>
+        <ul class="source-list">
+          <li>公开资料：Xbox Elite Series 2、DualSense Edge、8BitDo Ultimate 2、GameSir G7 Pro 官方产品页。</li>
+          <li>数据说明：行为频率、态度、支付意愿与运营指标为待验证目标，不代表已完成一手调研结果。</li>
+          <li>版权说明：本方案中的 NEXUS X1 为虚构案例产品，不使用竞品商标作为产品资产。</li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
+  <template id="controller-template">
+    <div class="controller-device" data-controller>
+      <img class="controller-art" src="assets/controller.svg" alt="NEXUS X1 跨平台竞技手柄产品渲染">
+      <button class="hotspot hit-left-shoulder" type="button" data-hotspot="LB / L1" aria-label="查看左肩键"></button>
+      <button class="hotspot hit-right-shoulder" type="button" data-hotspot="RB / R1" aria-label="查看右肩键"></button>
+      <button class="hotspot hit-left-stick" type="button" data-hotspot="左摇杆 / TMR" aria-label="查看左摇杆"></button>
+      <button class="hotspot hit-right-stick" type="button" data-hotspot="右摇杆 / TMR" aria-label="查看右摇杆"></button>
+      <button class="hotspot hit-dpad" type="button" data-hotspot="方向键" aria-label="查看方向键"></button>
+      <button class="hotspot hit-abxy" type="button" data-hotspot="ABXY / 平台布局" aria-label="查看 ABXY 按键"></button>
+      <button class="hotspot hit-center" type="button" data-hotspot="NEXUS / VIEW / MENU" aria-label="查看中心按键"></button>
+      <button class="hotspot hit-left-back" type="button" data-hotspot="L4 / P1" aria-label="查看左背键"></button>
+      <button class="hotspot hit-right-back" type="button" data-hotspot="R4 / P2" aria-label="查看右背键"></button>
+    </div>
+  </template>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
