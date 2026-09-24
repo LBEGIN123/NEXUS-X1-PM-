@@ -26,6 +26,8 @@ let pointerTarget = { x: 0, y: 0 };
 let pointerCurrent = { x: 0, y: 0 };
 let sequenceContext = null;
 let sequenceMetrics = { top: 0, range: 1, pageRange: 1 };
+let activeSequenceLayer = 0;
+let sequenceSwapToken = 0;
 const frameImageCache = new Map();
 
 const siteMarkup = `
@@ -62,7 +64,8 @@ const siteMarkup = `
           <div class="scene-halo halo-orange" data-depth="ambient"></div>
           <div class="scene-halo halo-blue" data-depth="light"></div>
           <div class="particle-field" data-depth="particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <img class="sequence-frame hero-sequence-frame scene-frame" src="${framePath(HERO_FRAME_START)}" alt="Nexus 跨平台游戏手柄外观帧序列" width="1600" height="900" decoding="async" fetchpriority="high" draggable="false" />
+          <img class="sequence-frame hero-sequence-frame hero-sequence-layer is-current scene-frame" data-sequence-layer="0" src="${framePath(HERO_FRAME_START)}" alt="Nexus 跨平台游戏手柄外观帧序列" width="1600" height="900" decoding="async" fetchpriority="high" draggable="false" />
+          <img class="sequence-frame hero-sequence-frame hero-sequence-layer scene-frame" data-sequence-layer="1" alt="" aria-hidden="true" width="1600" height="900" decoding="async" draggable="false" />
           <div class="hero-shade"></div>
           <div class="sequence-copy hero-copy copy-left" data-beat="hero">
             <p class="eyebrow">NEXUS / CROSS-PLATFORM CONTROLLER</p>
@@ -274,6 +277,7 @@ function preloadFrame(index, priority = 'low') {
   image.decoding = 'async';
   image.fetchPriority = priority;
   image.src = framePath(frame);
+  if (priority === 'high' && typeof image.decode === 'function') image.decode().catch(() => {});
   frameImageCache.set(frame, image);
   trimFrameCache(frame);
   return image;
@@ -290,17 +294,43 @@ function preloadFramesAround(index, direction) {
   }
 }
 
+function showSequenceFrame(frame) {
+  const { layers } = sequenceContext || {};
+  if (!layers || layers.length < 2) return;
+  const nextLayerIndex = activeSequenceLayer === 0 ? 1 : 0;
+  const currentLayer = layers[activeSequenceLayer];
+  const nextLayer = layers[nextLayerIndex];
+  const src = framePath(frame);
+  if (nextLayer.getAttribute('src') === src && nextLayer.complete) {
+    nextLayer.classList.add('is-current');
+    currentLayer.classList.remove('is-current');
+    activeSequenceLayer = nextLayerIndex;
+    return;
+  }
+
+  const swapToken = ++sequenceSwapToken;
+  nextLayer.src = src;
+  const reveal = () => {
+    if (swapToken !== sequenceSwapToken) return;
+    nextLayer.classList.add('is-current');
+    currentLayer.classList.remove('is-current');
+    activeSequenceLayer = nextLayerIndex;
+  };
+  if (typeof nextLayer.decode === 'function') nextLayer.decode().then(reveal).catch(() => {});
+  else nextLayer.addEventListener('load', reveal, { once: true });
+}
+
 function updateSequenceFrame() {
   frameRaf = 0;
-  const { section, image, railFill } = sequenceContext || {};
-  if (!section || !image) return;
+  const { section, railFill } = sequenceContext || {};
+  if (!section) return;
   const progress = Math.max(0, Math.min(1, (window.scrollY - sequenceMetrics.top) / sequenceMetrics.range));
   const nextFrame = frameIndexForProgress(progress);
   const direction = nextFrame >= currentFrame ? 1 : -1;
   if (currentFrame !== nextFrame) {
     currentFrame = nextFrame;
     preloadFramesAround(nextFrame, direction);
-    image.src = framePath(nextFrame);
+    showSequenceFrame(nextFrame);
   }
   const heroEndProgress = HERO_FRAME_END / (SEQUENCE_FRAME_LENGTH - 1);
   const nextBeat = progress < 0.16 ? 'hero' : progress < 0.34 ? 'detail' : progress < heroEndProgress ? 'hero-end' : progress < heroEndProgress + 0.05 ? 'end' : progress < 0.82 ? 'appearance' : 'end';
@@ -326,10 +356,12 @@ function refreshSequenceMetrics() {
 
 function bindSequence() {
   const section = document.querySelector('[data-sequence]');
-  const image = section?.querySelector('.sequence-frame');
+  const layers = [...section.querySelectorAll('[data-sequence-layer]')];
   const railFill = document.querySelector('.scroll-rail span');
-  if (!section || !image) return;
-  sequenceContext = { section, image, railFill };
+  if (!section || layers.length < 2) return;
+  sequenceContext = { section, layers, railFill };
+  currentFrame = HERO_FRAME_START;
+  activeSequenceLayer = 0;
   refreshSequenceMetrics();
   preloadFrame(HERO_FRAME_START, 'high');
   const warmAnchors = () => [HERO_FRAME_END, APPEARANCE_FRAME_END].forEach((frame) => preloadFrame(frame));
