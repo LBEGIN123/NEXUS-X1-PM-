@@ -7,7 +7,8 @@ const HERO_FRAME_START = 0;
 const HERO_FRAME_END = 228;
 const APPEARANCE_FRAME_END = 415;
 const SEQUENCE_FRAME_LENGTH = APPEARANCE_FRAME_END - HERO_FRAME_START + 1;
-const MOBILE_FRAME_COUNT = 200;
+const SEQUENCE_FRAME_STEP = window.innerWidth <= 720 ? 4 : 2;
+const FRAME_CACHE_LIMIT = 34;
 const framePath = (index) => assetUrl(`/frames/f_${String(Math.max(1, Math.min(FRAME_COUNT, index + 1))).padStart(4, '0')}.webp`);
 
 const app = document.querySelector('#app');
@@ -23,7 +24,9 @@ let currentControlPanel = -1;
 let dockLanded = false;
 let pointerTarget = { x: 0, y: 0 };
 let pointerCurrent = { x: 0, y: 0 };
-const preloadedFrames = new Set();
+let sequenceContext = null;
+let sequenceMetrics = { top: 0, range: 1, pageRange: 1 };
+const frameImageCache = new Map();
 
 const siteMarkup = `
   <div class="site-shell" data-theme="blue">
@@ -59,7 +62,7 @@ const siteMarkup = `
           <div class="scene-halo halo-orange" data-depth="ambient"></div>
           <div class="scene-halo halo-blue" data-depth="light"></div>
           <div class="particle-field" data-depth="particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <img class="sequence-frame hero-sequence-frame scene-frame" src="${framePath(HERO_FRAME_START)}" alt="Nexus 跨平台游戏手柄外观帧序列" width="1600" height="900" />
+          <img class="sequence-frame hero-sequence-frame scene-frame" src="${framePath(HERO_FRAME_START)}" alt="Nexus 跨平台游戏手柄外观帧序列" width="1600" height="900" decoding="async" fetchpriority="high" draggable="false" />
           <div class="hero-shade"></div>
           <div class="sequence-copy hero-copy copy-left" data-beat="hero">
             <p class="eyebrow">NEXUS / CROSS-PLATFORM CONTROLLER</p>
@@ -245,30 +248,60 @@ function bindPointerScenes() {
 }
 
 function frameIndexForProgress(progress) {
-  const sampleCount = Math.min(window.innerWidth <= 720 ? MOBILE_FRAME_COUNT : SEQUENCE_FRAME_LENGTH, SEQUENCE_FRAME_LENGTH);
-  const sampleIndex = Math.round(progress * (sampleCount - 1));
-  return HERO_FRAME_START + Math.round((sampleIndex / (sampleCount - 1)) * (SEQUENCE_FRAME_LENGTH - 1));
+  const step = window.innerWidth <= 720 ? 4 : SEQUENCE_FRAME_STEP;
+  const sampledFrame = Math.round((HERO_FRAME_START + progress * (SEQUENCE_FRAME_LENGTH - 1)) / step) * step;
+  return Math.max(HERO_FRAME_START, Math.min(APPEARANCE_FRAME_END, sampledFrame));
 }
 
-function preloadFramesAround(index) {
-  const start = Math.max(HERO_FRAME_START, index - 4);
-  const end = Math.min(APPEARANCE_FRAME_END, index + 10);
-  for (let frame = start; frame <= end; frame += 1) {
-    const src = framePath(frame);
-    if (preloadedFrames.has(src)) continue;
-    preloadedFrames.add(src);
-    const image = new Image();
-    image.src = src;
+function trimFrameCache(center) {
+  if (frameImageCache.size <= FRAME_CACHE_LIMIT) return;
+  const removeCount = frameImageCache.size - FRAME_CACHE_LIMIT;
+  [...frameImageCache.keys()]
+    .sort((a, b) => Math.abs(b - center) - Math.abs(a - center))
+    .slice(0, removeCount)
+    .forEach((frame) => frameImageCache.delete(frame));
+}
+
+function preloadFrame(index, priority = 'low') {
+  const frame = Math.max(HERO_FRAME_START, Math.min(APPEARANCE_FRAME_END, index));
+  const cached = frameImageCache.get(frame);
+  if (cached) {
+    frameImageCache.delete(frame);
+    frameImageCache.set(frame, cached);
+    return cached;
+  }
+  const image = new Image();
+  image.decoding = 'async';
+  image.fetchPriority = priority;
+  image.src = framePath(frame);
+  frameImageCache.set(frame, image);
+  trimFrameCache(frame);
+  return image;
+}
+
+function preloadFramesAround(index, direction) {
+  const step = window.innerWidth <= 720 ? 4 : SEQUENCE_FRAME_STEP;
+  const compact = window.innerWidth <= 720;
+  const behind = compact ? 4 : 6;
+  const ahead = compact ? 9 : 15;
+  for (let offset = -behind; offset <= ahead; offset += 1) {
+    const weightedOffset = direction < 0 && offset < 0 ? offset * 2 : offset;
+    preloadFrame(index + weightedOffset * step, offset <= 2 ? 'high' : 'low');
   }
 }
 
 function updateSequenceFrame() {
   frameRaf = 0;
-  const section = document.querySelector('[data-sequence]'); const image = document.querySelector('.sequence-frame');
+  const { section, image, railFill } = sequenceContext || {};
   if (!section || !image) return;
-  const max = Math.max(1, section.offsetHeight - window.innerHeight); const progress = Math.max(0, Math.min(1, (window.scrollY - section.offsetTop) / max)); const nextFrame = frameIndexForProgress(progress);
-  if (currentFrame !== nextFrame) { currentFrame = nextFrame; image.src = framePath(nextFrame); }
-  preloadFramesAround(nextFrame);
+  const progress = Math.max(0, Math.min(1, (window.scrollY - sequenceMetrics.top) / sequenceMetrics.range));
+  const nextFrame = frameIndexForProgress(progress);
+  const direction = nextFrame >= currentFrame ? 1 : -1;
+  if (currentFrame !== nextFrame) {
+    currentFrame = nextFrame;
+    preloadFramesAround(nextFrame, direction);
+    image.src = framePath(nextFrame);
+  }
   const heroEndProgress = HERO_FRAME_END / (SEQUENCE_FRAME_LENGTH - 1);
   const nextBeat = progress < 0.16 ? 'hero' : progress < 0.34 ? 'detail' : progress < heroEndProgress ? 'hero-end' : progress < heroEndProgress + 0.05 ? 'end' : progress < 0.82 ? 'appearance' : 'end';
   if (currentBeat !== nextBeat) {
@@ -276,17 +309,45 @@ function updateSequenceFrame() {
     replayFoldText(section.querySelectorAll(`[data-beat="${nextBeat}"] h2, [data-beat="${nextBeat}"] .eyebrow, [data-beat="${nextBeat}"] .hero-kicker, [data-beat="${nextBeat}"] .hero-intro, [data-beat="${nextBeat}"] p:not(.eyebrow)`));
   }
   section.dataset.beat = nextBeat;
-  const total = Math.max(1, document.documentElement.scrollHeight - window.innerHeight); document.querySelector('.scroll-rail span')?.style.setProperty('height', `${Math.max(0, Math.min(100, window.scrollY / total * 100))}%`);
+  if (railFill) {
+    railFill.style.transform = `scaleY(${Math.max(0, Math.min(1, window.scrollY / sequenceMetrics.pageRange))})`;
+  }
+}
+
+function refreshSequenceMetrics() {
+  const { section } = sequenceContext || {};
+  if (!section) return;
+  sequenceMetrics = {
+    top: section.offsetTop,
+    range: Math.max(1, section.offsetHeight - window.innerHeight),
+    pageRange: Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+  };
 }
 
 function bindSequence() {
-  [0, 57, 114, 171, 228, 285, 342, 415].map(framePath).forEach((src) => { preloadedFrames.add(src); const image = new Image(); image.src = src; });
+  const section = document.querySelector('[data-sequence]');
+  const image = section?.querySelector('.sequence-frame');
+  const railFill = document.querySelector('.scroll-rail span');
+  if (!section || !image) return;
+  sequenceContext = { section, image, railFill };
+  refreshSequenceMetrics();
+  preloadFrame(HERO_FRAME_START, 'high');
+  const warmAnchors = () => [HERO_FRAME_END, APPEARANCE_FRAME_END].forEach((frame) => preloadFrame(frame));
+  if ('requestIdleCallback' in window) window.requestIdleCallback(warmAnchors, { timeout: 1600 });
+  else window.setTimeout(warmAnchors, 600);
   const handler = () => { if (!frameRaf) frameRaf = requestAnimationFrame(updateSequenceFrame); };
-  window.addEventListener('scroll', handler, { passive: true }); window.addEventListener('resize', handler, { passive: true }); updateSequenceFrame();
+  const resizeHandler = () => { refreshSequenceMetrics(); handler(); };
+  window.addEventListener('scroll', handler, { passive: true });
+  window.addEventListener('resize', resizeHandler, { passive: true });
+  updateSequenceFrame();
 }
 
 function updateControlSequence() {
   controlRaf = 0;
+  const section = document.querySelector('[data-control-sequence]');
+  if (!section) return;
+  const sectionRect = section.getBoundingClientRect();
+  if (sectionRect.bottom < -80 || sectionRect.top > window.innerHeight + 80) return;
   const panels = [...document.querySelectorAll('[data-control-panel]')];
   if (!panels.length) return;
   const viewport = Math.max(1, window.innerHeight);
@@ -350,10 +411,13 @@ function bindPurchaseTransition() {
 function updateDockSequence() {
   dockRaf = 0;
   const section = document.querySelector('[data-dock-sequence]');
+  if (!section) return;
+  const sectionRect = section.getBoundingClientRect();
+  if (sectionRect.bottom < -80 || sectionRect.top > window.innerHeight + 80) return;
   const handle = section?.querySelector('.dock-handle-layer');
   const base = section?.querySelector('.dock-base-layer');
   const copy = section?.querySelector('.dock-copy');
-  if (!section || !handle || !base || !copy) return;
+  if (!handle || !base || !copy) return;
   const compactDock = window.matchMedia('(max-width: 880px)').matches;
   const landingHandleY = compactDock ? 5.1 : 12;
   const landingBaseY = compactDock ? -0.62 : -1.42;
