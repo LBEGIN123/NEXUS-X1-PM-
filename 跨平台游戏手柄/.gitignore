@@ -1,0 +1,14 @@
+# Dependencies and caches
+node_modules/
+__pycache__/
+*.py[cod]
+
+# Local browser profiles used for website QA
+.edge-qa-desktop/
+**/edge-profile-*/
+**/edge-v13-*/
+
+# Local logs and OS metadata
+*.log
+.DS_Store
+Thumbs.db

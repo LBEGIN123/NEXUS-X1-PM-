@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影视产品页线框图</title>
+    <style>
+      :root {
+        --paper: #f6f6f3;
+        --ink: #161616;
+        --muted: #777771;
+        --line: #b7b7b0;
+        --soft: #dcdcd6;
+        --block: #e7e7e1;
+        --dark-block: #bcbcb5;
+        --content: min(1260px, calc(100vw - 72px));
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: var(--paper); }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; color: inherit; }
+
+      .wireframe { min-width: 320px; }
+      .view-switcher {
+        position: fixed;
+        z-index: 30;
+        right: 16px;
+        bottom: 16px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        padding: 6px;
+        border: 1px solid var(--ink);
+        background: rgba(246, 246, 243, .94);
+      }
+      .view-switcher span { padding: 3px 8px; color: var(--muted); font-size: 10px; letter-spacing: .08em; }
+      .view-switcher button { padding: 4px 8px; border: 1px solid var(--line); background: transparent; cursor: pointer; font-size: 11px; }
+      .view-switcher button.is-active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+
+      .global-nav {
+        position: sticky;
+        z-index: 20;
+        top: 0;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        min-height: 66px;
+        padding: 0 36px;
+        border-bottom: 1px solid var(--ink);
+        background: var(--paper);
+      }
+      .brand { font-size: 18px; font-weight: 800; letter-spacing: .08em; }
+      .global-links { display: flex; gap: 22px; margin-right: auto; color: var(--muted); font-size: 12px; }
+      .global-links a:first-child { color: var(--ink); }
+      .nav-actions { display: flex; gap: 9px; align-items: center; }
+      .nav-action { padding: 7px 12px; border: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+      .nav-action.dark { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+
+      .product-nav {
+        position: sticky;
+        z-index: 19;
+        top: 66px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        min-height: 54px;
+        padding: 0 36px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(246, 246, 243, .96);
+      }
+      .product-name { font-weight: 700; }
+      .product-tabs { display: flex; gap: 18px; margin-right: auto; color: var(--muted); font-size: 11px; }
+      .product-tabs a:first-child { color: var(--ink); }
+      .product-buy { padding: 6px 13px; border: 1px solid var(--ink); font-size: 11px; }
+
+      .wire-note { width: var(--content); margin: 26px auto 0; padding-bottom: 12px; border-bottom: 1px dashed var(--line); color: var(--muted); font-size: 11px; }
+      .wire-note strong { color: var(--ink); }
+      .section {
+        position: relative;
+        width: var(--content);
+        min-height: 720px;
+        margin: 52px auto 0;
+        padding: 44px 0;
+        border-bottom: 1px solid var(--ink);
+      }
+      .section::before { position: absolute; top: 8px; left: 0; color: var(--muted); content: attr(data-label); font-size: 10px; letter-spacing: .14em; }
+      .section-index { position: absolute; top: 8px; right: 0; color: var(--muted); font-size: 10px; }
+
+      .hero {
+        min-height: 850px;
+        padding-top: 50px;
+      }
+      .hero-media {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 610px;
+        border: 1px solid var(--ink);
+        background:
+          linear-gradient(90deg, transparent 49.8%, var(--soft) 50%, transparent 50.2%),
+          linear-gradient(transparent 49.8%, var(--soft) 50%, transparent 50.2%),
+          var(--block);
+      }
+      .hero-media::before,
+      .hero-media::after {
+        position: absolute;
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .hero-media::before { top: 12px; left: 14px; content: "HERO VIDEO / PRODUCT IMAGE"; }
+      .hero-media::after { right: 14px; bottom: 12px; content: "FULL BLEED / 16:9 OR 21:9"; }
+      .camera-placeholder {
+        position: relative;
+        width: min(36%, 360px);
+        aspect-ratio: .72;
+        border: 2px solid var(--ink);
+        background: var(--paper);
+        transform: rotate(-8deg);
+      }
+      .camera-placeholder::before { position: absolute; top: 18%; left: 17%; width: 56%; aspect-ratio: 1; border: 2px solid var(--ink); border-radius: 50%; content: ""; }
+      .camera-placeholder::after { position: absolute; right: -24%; bottom: 13%; width: 35%; height: 23%; border: 1px solid var(--ink); content: ""; }
+      .hero-copy { position: absolute; right: 7%; bottom: 9%; width: min(370px, 34%); }
+      .eyebrow { display: inline-block; margin-bottom: 18px; padding: 4px 7px; border: 1px solid var(--line); color: var(--muted); font-size: 10px; letter-spacing: .12em; }
+      .title-bars { display: grid; gap: 9px; margin-bottom: 22px; }
+      .title-bars span { display: block; width: 100%; height: 20px; background: var(--ink); }
+      .title-bars span:nth-child(2) { width: 84%; }
+      .title-bars span:nth-child(3) { width: 58%; }
+      .copy-bars { display: grid; gap: 7px; margin-bottom: 20px; }
+      .copy-bars span { display: block; width: 100%; height: 8px; background: var(--dark-block); }
+      .copy-bars span:nth-child(2) { width: 90%; }
+      .copy-bars span:nth-child(3) { width: 74%; }
+      .copy-bars span:nth-child(4) { width: 56%; }
+      .button-line { display: flex; flex-wrap: wrap; gap: 8px; }
+      .wire-button { min-width: 96px; padding: 8px 12px; border: 1px solid var(--ink); background: transparent; text-align: center; font-size: 11px; }
+      .wire-button.dark { background: var(--ink); color: var(--paper); }
+
+      .anchor-map { min-height: 150px; padding: 30px 0; }
+      .anchor-map-inner { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+      .anchor-map a { min-height: 76px; padding: 14px 12px; border-right: 1px solid var(--line); font-size: 11px; }
+      .anchor-map a:last-child { border-right: 0; }
+      .anchor-map small { display: block; margin-bottom: 16px; color: var(--muted); font-size: 9px; }
+
+      .two-col { display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: center; min-height: 610px; }
+      .two-col.reverse { grid-template-columns: 7fr 5fr; }
+      .two-col.reverse .media { order: 2; }
+      .two-col.reverse .copy { order: 1; }
+      .copy { max-width: 440px; }
+      .media {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 490px;
+        border: 1px solid var(--ink);
+        background:
+          linear-gradient(90deg, transparent 49.8%, var(--soft) 50%, transparent 50.2%),
+          linear-gradient(transparent 49.8%, var(--soft) 50%, transparent 50.2%),
+          var(--block);
+      }
+      .media::before { position: absolute; top: 11px; left: 12px; color: var(--muted); content: "MEDIA SLOT"; font-size: 10px; }
+      .media::after { position: absolute; right: 12px; bottom: 11px; color: var(--muted); content: "IMAGE / VIDEO / ANIMATION"; font-size: 9px; }
+      .media-shape { width: 66%; aspect-ratio: 1.5; border: 2px solid var(--ink); background: var(--paper); }
+      .media-shape.tall { width: 42%; aspect-ratio: .65; }
+      .media-shape.wide { width: 80%; aspect-ratio: 2.2; }
+      .media-shape.round { width: 34%; aspect-ratio: 1; border-radius: 50%; }
+      .media-shape::before { display: block; width: 46%; height: 46%; margin: 14% auto; border: 1px solid var(--ink); border-radius: 50%; content: ""; }
+      .media-tag { position: absolute; left: 12px; bottom: 11px; padding: 3px 6px; border: 1px solid var(--line); color: var(--muted); font-size: 9px; }
+
+      .feature-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+      .feature-list span { padding: 7px 10px; border: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+      .feature-list span.active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+      .module-box { margin-top: 28px; padding: 15px; border: 1px solid var(--ink); }
+      .module-box-title { display: block; margin-bottom: 13px; color: var(--muted); font-size: 10px; letter-spacing: .1em; }
+      .module-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--soft); color: var(--muted); font-size: 10px; }
+      .compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 26px; }
+      .compare-cell { min-height: 54px; padding: 10px; border: 1px solid var(--line); }
+      .compare-cell small { display: block; margin-bottom: 8px; color: var(--muted); font-size: 9px; }
+      .compare-cell span { display: block; width: 72%; height: 8px; background: var(--dark-block); }
+
+      .sticky-feature { min-height: 1120px; }
+      .sticky-stage { position: sticky; top: 132px; display: grid; grid-template-columns: 4fr 8fr; gap: 44px; align-items: center; min-height: 720px; }
+      .sticky-copy { padding-left: 54px; }
+      .scroll-rail { position: absolute; top: 0; bottom: 0; left: 22px; width: 1px; border-left: 1px dashed var(--line); }
+      .scroll-rail i { position: absolute; left: -4px; width: 7px; height: 7px; border: 1px solid var(--ink); background: var(--paper); }
+      .scroll-rail i:nth-child(1) { top: 8%; }
+      .scroll-rail i:nth-child(2) { top: 48%; }
+      .scroll-rail i:nth-child(3) { top: 88%; }
+      .step-list { display: grid; gap: 12px; margin-top: 30px; }
+      .step { display: grid; grid-template-columns: 58px 1fr; gap: 10px; align-items: center; color: var(--muted); font-size: 10px; }
+      .step b { color: var(--ink); font-weight: 400; }
+      .step span { height: 1px; background: var(--line); }
+
+      .quote-section { min-height: 620px; display: grid; place-items: center; text-align: center; }
+      .quote-section .copy { max-width: 560px; }
+      .quote-section .title-bars { justify-items: center; }
+      .quote-section .title-bars span { width: 74%; }
+      .quote-section .title-bars span:nth-child(2) { width: 54%; }
+      .quote-section .copy-bars span { margin: 0 auto; }
+
+      .specs { min-height: 720px; }
+      .spec-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 32px; border-top: 1px solid var(--ink); border-left: 1px solid var(--line); }
+      .spec-cell { min-height: 86px; padding: 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .spec-cell small { display: block; margin-bottom: 10px; color: var(--muted); font-size: 9px; }
+      .spec-cell span { display: block; width: 72%; height: 9px; background: var(--dark-block); }
+      .faq { margin-top: 34px; border-top: 1px solid var(--ink); }
+      .faq-row { display: grid; grid-template-columns: 1fr 18px; gap: 20px; align-items: center; min-height: 50px; border-bottom: 1px solid var(--line); }
+      .faq-row span:first-child { width: 42%; height: 8px; background: var(--dark-block); }
+      .faq-row span:last-child { width: 17px; height: 17px; border: 1px solid var(--ink); text-align: center; line-height: 14px; }
+
+      .package-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 34px; }
+      .package-card { min-height: 320px; padding: 18px; border: 1px solid var(--ink); }
+      .package-card .media { min-height: 190px; margin-bottom: 18px; }
+      .package-card .media-shape { width: 34%; }
+      .accessory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 28px; }
+      .accessory { min-height: 160px; padding: 10px; border: 1px solid var(--line); }
+      .accessory .mini-media { height: 95px; margin-bottom: 12px; border: 1px solid var(--line); background: var(--block); }
+      .accessory span { display: block; width: 70%; height: 8px; background: var(--dark-block); }
+
+      .final-cta { min-height: 650px; }
+      .final-layout { display: grid; grid-template-columns: 5fr 7fr; gap: 44px; align-items: center; min-height: 540px; }
+      .price-bars { display: flex; align-items: baseline; gap: 8px; margin: 28px 0 14px; }
+      .price-bars strong { display: block; width: 170px; height: 42px; background: var(--ink); }
+      .price-bars span { width: 22px; height: 12px; background: var(--dark-block); }
+      .footer { display: flex; justify-content: space-between; gap: 20px; width: var(--content); margin: 0 auto; padding: 26px 0 42px; color: var(--muted); font-size: 10px; }
+
+      .is-mobile .section,
+      .is-mobile .wire-note,
+      .is-mobile .footer { --content: calc(100vw - 40px); }
+      .is-mobile .global-nav,
+      .is-mobile .product-nav { padding-left: 20px; padding-right: 20px; }
+      .is-mobile .global-links,
+      .is-mobile .product-tabs { display: none; }
+      .is-mobile .global-nav,
+      .is-mobile .product-nav { justify-content: space-between; }
+      .is-mobile .section { min-height: 760px; margin-top: 38px; padding-top: 42px; }
+      .is-mobile .hero { min-height: 820px; }
+      .is-mobile .hero-media { min-height: 500px; }
+      .is-mobile .hero-copy { right: 20px; bottom: 22px; width: 62%; }
+      .is-mobile .camera-placeholder { width: 42%; }
+      .is-mobile .two-col,
+      .is-mobile .two-col.reverse,
+      .is-mobile .final-layout { display: flex; flex-direction: column; gap: 22px; align-items: stretch; min-height: 0; }
+      .is-mobile .two-col .media,
+      .is-mobile .two-col.reverse .media,
+      .is-mobile .final-layout .media { order: 1; min-height: 390px; }
+      .is-mobile .two-col .copy,
+      .is-mobile .two-col.reverse .copy,
+      .is-mobile .final-layout .copy { order: 2; max-width: none; }
+      .is-mobile .anchor-map-inner { grid-template-columns: repeat(2, 1fr); }
+      .is-mobile .anchor-map a:nth-child(2n) { border-right: 0; }
+      .is-mobile .anchor-map a:nth-child(n + 3) { border-top: 1px solid var(--line); }
+      .is-mobile .sticky-feature { min-height: 1000px; }
+      .is-mobile .sticky-stage { position: sticky; top: 126px; display: flex; flex-direction: column; gap: 22px; min-height: 740px; align-items: stretch; }
+      .is-mobile .sticky-copy { padding-left: 0; }
+      .is-mobile .sticky-stage .media { min-height: 420px; }
+      .is-mobile .scroll-rail { display: none; }
+      .is-mobile .spec-grid { grid-template-columns: repeat(2, 1fr); }
+      .is-mobile .package-grid { grid-template-columns: 1fr; }
+      .is-mobile .accessory-grid { grid-template-columns: repeat(2, 1fr); }
+      .is-mobile .footer { display: block; }
+      .is-mobile .footer span + span { display: block; margin-top: 10px; }
+
+      @media (max-width: 760px) {
+        :root { --content: calc(100vw - 40px); }
+        .global-nav { min-height: 60px; padding: 0 20px; }
+        .product-nav { top: 60px; min-height: 50px; padding: 0 20px; }
+        .global-links,
+        .product-tabs { display: none; }
+        .global-nav,
+        .product-nav { justify-content: space-between; }
+        .section { min-height: 760px; margin-top: 38px; padding-top: 42px; }
+        .hero { min-height: 820px; }
+        .hero-media { min-height: 500px; }
+        .hero-copy { right: 20px; bottom: 22px; width: 62%; }
+        .camera-placeholder { width: 42%; }
+        .two-col,
+        .two-col.reverse,
+        .final-layout { display: flex; flex-direction: column; gap: 22px; align-items: stretch; min-height: 0; }
+        .two-col .media,
+        .two-col.reverse .media,
+        .final-layout .media { order: 1; min-height: 390px; }
+        .two-col .copy,
+        .two-col.reverse .copy,
+        .final-layout .copy { order: 2; max-width: none; }
+        .anchor-map-inner { grid-template-columns: repeat(2, 1fr); }
+        .anchor-map a:nth-child(2n) { border-right: 0; }
+        .anchor-map a:nth-child(n + 3) { border-top: 1px solid var(--line); }
+        .sticky-feature { min-height: 1000px; }
+        .sticky-stage { position: sticky; top: 126px; display: flex; flex-direction: column; gap: 22px; min-height: 740px; align-items: stretch; }
+        .sticky-copy { padding-left: 0; }
+        .sticky-stage .media { min-height: 420px; }
+        .scroll-rail { display: none; }
+        .spec-grid { grid-template-columns: repeat(2, 1fr); }
+        .package-grid { grid-template-columns: 1fr; }
+        .accessory-grid { grid-template-columns: repeat(2, 1fr); }
+        .footer { display: block; }
+        .footer span + span { display: block; margin-top: 10px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wireframe" id="wireframe">
+      <div class="view-switcher" aria-label="线框图视图切换">
+        <span>影视产品页 WIREFRAME</span>
+        <button class="is-active" data-view="desktop">Desktop</button>
+        <button data-view="mobile">Mobile</button>
+      </div>
+
+      <header class="global-nav">
+        <a class="brand" href="#hero">INSTA360</a>
+        <nav class="global-links" aria-label="品牌导航">
+          <a href="#hero">产品</a><a href="#features">行业应用</a><a href="#creative">发现精彩</a><a href="#support">服务与支持</a>
+        </nav>
+        <div class="nav-actions"><span class="nav-action">搜索</span><span class="nav-action dark">立即购买</span></div>
+      </header>
+
+      <nav class="product-nav" aria-label="产品内页导航">
+        <span class="product-name">LUNA ULTRA / 产品页</span>
+        <div class="product-tabs"><a href="#hero">介绍</a><a href="#features">亮点</a><a href="#packages">套餐</a><a href="#specs">参数</a><a href="#support">支持</a></div>
+        <a class="product-buy" href="#final">立即购买</a>
+      </nav>
+
+      <div class="wire-note"><strong>参考结构：</strong> Insta360 Luna Ultra 产品页｜<strong>输出类型：</strong> 黑白布局线框｜<strong>表达重点：</strong> 沉浸式影像首屏、功能章节、媒体占位、横向标签和购买收束</div>
+
+      <main>
+        <section class="section hero" id="hero" data-label="01 / HERO PRODUCT FILM">
+          <span class="section-index">首屏 / 全屏视频或主视觉</span>
+          <div class="hero-media">
+            <div class="camera-placeholder"></div>
+            <div class="hero-copy">
+              <span class="eyebrow">PRODUCT NAME / HERO CLAIM</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span></div>
+              <div class="button-line"><span class="wire-button dark">立即购买</span><span class="wire-button">了解更多</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section anchor-map" id="highlights" data-label="02 / PRODUCT ANCHOR MAP">
+          <span class="section-index">页面内锚点 / 亮点导航</span>
+          <div class="anchor-map-inner">
+            <a href="#image"><small>HIGHLIGHT 01</small>旗舰画质</a>
+            <a href="#portrait"><small>HIGHLIGHT 02</small>质感人像</a>
+            <a href="#color"><small>HIGHLIGHT 03</small>大师色彩</a>
+            <a href="#easy"><small>HIGHLIGHT 04</small>轻松上手</a>
+            <a href="#creative"><small>HIGHLIGHT 05</small>随心创作</a>
+            <a href="#packages"><small>HIGHLIGHT 06</small>包装内含</a>
+          </div>
+        </section>
+
+        <section class="section" id="image" data-label="03 / FLAGSHIP IMAGING">
+          <span class="section-index">重点卖点 / 双镜头影像</span>
+          <div class="two-col">
+            <div class="copy">
+              <span class="eyebrow">FEATURE / FLAGSHIP IMAGING</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span><span></span></div>
+              <div class="feature-list"><span class="active">8K</span><span>LEICA</span><span>1-INCH SENSOR</span><span>SUPER TELEPHOTO</span></div>
+            </div>
+            <div class="media"><div class="media-shape"></div><span class="media-tag">双镜头产品主视觉</span></div>
+          </div>
+        </section>
+
+        <section class="section sticky-feature" id="features" data-label="04 / FEATURE STORY SCROLL">
+          <span class="section-index">长滚动 / Sticky 媒体舞台</span>
+          <div class="sticky-stage">
+            <div class="scroll-rail"><i></i><i></i><i></i></div>
+            <div class="sticky-copy">
+              <span class="eyebrow">FEATURE STORY / SCROLL CONTROLLED</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span></div>
+              <div class="step-list"><div class="step"><b>01 / WIDE</b><span></span></div><div class="step"><b>02 / TELEPHOTO</b><span></span></div><div class="step"><b>03 / STAGE MODE</b><span></span></div></div>
+            </div>
+            <div class="media"><div class="media-shape wide"></div><span class="media-tag">滚动驱动画面变化 / 章节内固定</span></div>
+          </div>
+        </section>
+
+        <section class="section" id="portrait" data-label="05 / PORTRAIT & NIGHT">
+          <span class="section-index">质感人像 / 场景切换</span>
+          <div class="two-col reverse">
+            <div class="media"><div class="media-shape tall"></div><span class="media-tag">人像场景 / 夜景场景</span></div>
+            <div class="copy">
+              <span class="eyebrow">FEATURE / PORTRAIT EXPERIENCE</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span></div>
+              <div class="module-box"><span class="module-box-title">SCENE SWITCHER</span><div class="feature-list"><span class="active">独自出行</span><span>情侣互拍</span><span>夜景人像</span></div><div class="module-footer"><span>场景选项</span><span>左右切换 →</span></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="color" data-label="06 / COLOR & PRO CREATION">
+          <span class="section-index">色彩系统 / 专业后期</span>
+          <div class="two-col">
+            <div class="copy">
+              <span class="eyebrow">FEATURE / LEICA COLOR + I-LOG</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span><span></span></div>
+              <div class="compare-grid"><div class="compare-cell"><small>直出色彩</small><span></span></div><div class="compare-cell"><small>I-Log</small><span></span></div><div class="compare-cell"><small>调色流程</small><span></span></div></div>
+            </div>
+            <div class="media"><div class="media-shape wide"></div><span class="media-tag">前后对比 / LUT 下载 / 软件兼容</span></div>
+          </div>
+        </section>
+
+        <section class="section quote-section" id="quote" data-label="07 / BRAND STATEMENT">
+          <span class="section-index">品牌宣言 / 视觉停顿</span>
+          <div class="copy">
+            <span class="eyebrow">STATEMENT / FULL WIDTH</span>
+            <div class="title-bars"><span></span><span></span><span></span></div>
+            <div class="copy-bars"><span></span><span></span><span></span></div>
+          </div>
+        </section>
+
+        <section class="section" id="easy" data-label="08 / EASY TO USE">
+          <span class="section-index">轻松上手 / 操作流程</span>
+          <div class="two-col reverse">
+            <div class="media"><div class="media-shape tall"></div><span class="media-tag">产品动作分解 / 操作步骤</span></div>
+            <div class="copy">
+              <span class="eyebrow">FEATURE / START SHOOTING</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span></div>
+              <div class="feature-list"><span class="active">下拉开拍</span><span>旋转开拍</span><span>第一人称头追</span><span>三轴增稳</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="tracking" data-label="09 / TRACKING & AUDIO">
+          <span class="section-index">智能追踪 / 收音 / 续航</span>
+          <div class="two-col">
+            <div class="copy">
+              <span class="eyebrow">FEATURE / AI TRACKING + AUDIO</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span><span></span></div>
+              <div class="feature-list"><span>自动追踪</span><span>动态长焦追踪</span><span>多人追踪</span><span>专业麦克风</span><span>4 小时续航</span></div>
+            </div>
+            <div class="media"><div class="media-shape"></div><span class="media-tag">追踪演示 / 音频链路 / 电池信息</span></div>
+          </div>
+        </section>
+
+        <section class="section" id="creative" data-label="10 / CREATIVE TOOLS">
+          <span class="section-index">创意功能 / App 生态</span>
+          <div class="two-col reverse">
+            <div class="media"><div class="media-shape wide"></div><span class="media-tag">App 操作界面 / 作品瀑布流</span></div>
+            <div class="copy">
+              <span class="eyebrow">FEATURE / AI CREATIVE WORKFLOW</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="copy-bars"><span></span><span></span><span></span></div>
+              <div class="module-box"><span class="module-box-title">MODE TABS</span><div class="feature-list"><span class="active">360° 全景</span><span>旋转运镜</span><span>延时摄影</span><span>AI 一键成片</span><span>时间码</span></div><div class="module-footer"><span>功能切换</span><span>查看示例 →</span></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section specs" id="specs" data-label="11 / SPECS & COMPARE">
+          <span class="section-index">参数 / 对比 / FAQ</span>
+          <div class="copy">
+            <span class="eyebrow">DECISION INFO / PRODUCT DATA</span>
+            <div class="title-bars"><span></span><span></span><span></span></div>
+          </div>
+          <div class="spec-grid"><div class="spec-cell"><small>主摄规格</small><span></span></div><div class="spec-cell"><small>长焦规格</small><span></span></div><div class="spec-cell"><small>分辨率</small><span></span></div><div class="spec-cell"><small>帧率</small><span></span></div><div class="spec-cell"><small>续航</small><span></span></div><div class="spec-cell"><small>存储</small><span></span></div><div class="spec-cell"><small>屏幕</small><span></span></div><div class="spec-cell"><small>连接</small><span></span></div></div>
+          <div class="faq"><div class="faq-row"><span></span><span>+</span></div><div class="faq-row"><span></span><span>+</span></div><div class="faq-row"><span></span><span>+</span></div></div>
+        </section>
+
+        <section class="section" id="packages" data-label="12 / IN THE BOX + ACCESSORIES">
+          <span class="section-index">套餐选择 / 配件生态</span>
+          <div class="copy"><span class="eyebrow">PACKAGE / CREATOR KIT</span><div class="title-bars"><span></span><span></span><span></span></div></div>
+          <div class="package-grid"><div class="package-card"><div class="media"><div class="media-shape"></div></div><div class="copy-bars"><span></span><span></span></div></div><div class="package-card"><div class="media"><div class="media-shape"></div></div><div class="copy-bars"><span></span><span></span></div></div></div>
+          <div class="accessory-grid"><div class="accessory"><div class="mini-media"></div><span></span></div><div class="accessory"><div class="mini-media"></div><span></span></div><div class="accessory"><div class="mini-media"></div><span></span></div><div class="accessory"><div class="mini-media"></div><span></span></div></div>
+        </section>
+
+        <section class="section final-cta" id="final" data-label="13 / FINAL PURCHASE CTA">
+          <span class="section-index">购买收束 / 保障 / 相关推荐</span>
+          <div class="final-layout">
+            <div class="copy">
+              <span class="eyebrow">CONVERSION / READY TO SHOOT</span>
+              <div class="title-bars"><span></span><span></span><span></span></div>
+              <div class="price-bars"><strong></strong><span></span></div>
+              <div class="button-line"><span class="wire-button dark">立即购买</span><span class="wire-button">服务保障</span></div>
+              <div class="copy-bars" style="margin-top: 22px;"><span></span><span></span></div>
+            </div>
+            <div class="media"><div class="media-shape tall"></div><span class="media-tag">最终产品定帧 / 购买区域</span></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer"><span>影视产品页 WIREFRAME</span><span>依据参考产品页的信息架构绘制，仅用于版式和交互关系说明</span></footer>
+    </div>
+
+    <script>
+      const wireframe = document.querySelector('#wireframe');
+      document.querySelectorAll('[data-view]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('[data-view]').forEach((item) => item.classList.remove('is-active'));
+          button.classList.add('is-active');
+          wireframe.classList.toggle('is-mobile', button.dataset.view === 'mobile');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    </script>
+  </body>
+</html>

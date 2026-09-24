@@ -1,0 +1,18 @@
+证据编号,类型,来源名称,来源链接,采集日期,原文摘录,涉及竞品,涉及需求方向,可信度,备注
+E001,官方规格,Sony DualSense Edge 产品页,https://www.playstation.com/en-us/accessories/dualsense-edge-wireless-controller/,2026-09-22,"Replaceable stick modules; Two swappable sets of back buttons",C01,摇杆可维护性/额外按键,A,
+E002,官方规格,Xbox Elite Series 2 产品页,https://www.xbox.com/en-US/accessories/controllers/elite-wireless-controller-series-2,2026-09-22,"up to 40 hours of battery life; Weight 345g; 3 tension setting",C02,续航/重量/手感,A,
+E003,官方规格,Razer Wolverine V3 Pro 产品页,https://www.razer.com/console-controllers/razer-wolverine-v3-pro,2026-09-22,"250Hz polling rate on wireless and when connected to Xbox",C03,无线延迟,A,
+E004,官方规格,8BitDo Ultimate 2 产品页,https://www.8bitdo.com/ultimate-2-wireless-controller/,2026-09-22,"TMR joysticks; 1000Hz polling rate under both 2.4G and wired; Hall Effect Triggers",C04,摇杆耐久/延迟/扳机,A,
+E005,官方规格,8BitDo Pro 3 产品页,https://www.8bitdo.com/pro3/,2026-09-22,"Swappable Magnetic ABXY let you swap between Switch and Xbox layouts",C05,按键符号跨平台适配,A,
+E006,用户评价,什么值得买 飞智八爪鱼5 评测聚合,https://post.smzdm.com/p/a9594qz5/,2026-09-22,"霍尔摇杆丝滑不飘，力反馈扳机手感细腻；510 拿下；接近300g；可插拔背键",C06,摇杆漂移/扳机手感/价格锚点,C,价格为用户晒单需核价
+E007,媒体报道,超能网 G7 Pro 首发,https://www.expreview.com/101257.html,2026-09-22,"微软Xbox授权，TMR磁变阻尼摇杆，售价499元",C07,授权与价格带,B,
+E008,官方教程,飞智帮助中心 Switch 连接教程,https://help.flydigi.com/,2026-09-22,"长按HOME键进入菜单，【模式切换】-【switch】-【有线】，进行连接即可",C06,跨平台切换步骤,B,需先在Switch设置开启PRO手柄有线连接
+E009,用户评价,知乎 北通鲲鹏50二代使用体验,https://zhuanlan.zhihu.com/,2026-09-22,"切换PC端与Switch端的连接方式，并实时查看连接状态，无需再通过LED指示灯猜测连接是否成功",C08,切换状态可见性,C,
+E010,线索,微软授权第三方手柄说明与社区讨论,https://html.duckduckgo.com/,2026-09-22,"Designed for Xbox certification means the hardware has been tested against Microsoft's performance, security, and safety standards",C07,授权门槛与无线限制,C,搜索摘要与论坛提到未授权手柄受限与第三方无线手柄稀少，需以微软官方政策核实
+E011,用户反馈,百度贴吧 Xbox精英二代A键问题解决方案,https://tieba.baidu.com/p/8462834365,2026-09-22,"买了4个xbox精英手柄2代，前三个均因A键断触等问题退货，第四个精英2青春版A键仍有断触",C02,按键可靠性,B,
+E012,用户反馈,B站 Xbox精英二代A键断触修复,https://www.bilibili.com/video/BV1WL4y1q7Eu/,2026-09-22,"微软Xbox Elite 精英手柄二代A键Y键通病断触修复",C02,按键可靠性,B,社区出现大量自行修复教程说明为长期通病
+E013,媒体报道,超能网 DualSense Edge 续航未提升,https://www.expreview.com/86084.html,2026-09-22,"更多的功能和更短的使用时间，索尼DualSense Edge并没有提升续航",C01,续航,A,
+E014,媒体报道,A9VG DualSense Edge 续航比原版短,https://bbs.a9vg.com/thread-8880438-1-1.html,2026-09-22,"DualSense Edge手柄续航时间比原版PS5手柄略短",C01,续航,B,索尼已回应称因增加功能所致
+E015,用户反馈,百度贴吧 飞智八爪鱼5 品控售后,https://tieba.baidu.com/p/10297568188,2026-09-22,"频繁断联需恢复出厂设置重连，售后回复慢且最后建议换货，游戏体验被毁",C06,无线连接稳定性/售后,B,
+E016,用户反馈,B站 飞智八爪鱼5 品控与断连,https://www.bilibili.com/video/BV1vdJ9zVEL2/,2026-09-22,"飞智八爪鱼5 明日香联名，品控堪忧，频繁断连",C06,无线连接稳定性/品控,B,
+E017,媒体报道,北通鲲鹏50二代商品与评测,https://item.jd.com/100153993569.html,2026-09-22,"带屏幕、四马达扳机震动、多平台兼容，价格还不到400元",C08,价格带/震动方案,C,价格需以渠道实际成交价复核

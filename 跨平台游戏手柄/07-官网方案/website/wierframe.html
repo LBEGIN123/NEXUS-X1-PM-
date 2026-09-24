@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEXUS | Website Wireframe</title>
+    <style>
+      :root {
+        --paper: #f5f5f2;
+        --ink: #181818;
+        --muted: #777;
+        --line: #b9b9b4;
+        --soft-line: #d7d7d2;
+        --fill: #e6e6e1;
+        --fill-dark: #c8c8c2;
+        --accent: #555;
+        --content: min(1200px, calc(100vw - 64px));
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; background: var(--paper); }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; color: inherit; }
+
+      .wireframe-shell { min-width: 320px; }
+      .utility-bar {
+        position: fixed;
+        z-index: 20;
+        top: 12px;
+        right: 16px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 6px;
+        border: 1px solid var(--ink);
+        background: rgba(245, 245, 242, .92);
+      }
+      .utility-bar span { padding: 3px 7px; font-size: 11px; letter-spacing: .08em; }
+      .utility-bar button {
+        padding: 4px 8px;
+        border: 1px solid var(--line);
+        background: transparent;
+        cursor: pointer;
+      }
+      .utility-bar button.is-active { color: var(--paper); background: var(--ink); border-color: var(--ink); }
+
+      .site-nav {
+        position: sticky;
+        z-index: 10;
+        top: 0;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        min-height: 72px;
+        padding: 0 32px;
+        border-bottom: 1px solid var(--ink);
+        background: var(--paper);
+      }
+      .brand { font-size: 15px; font-weight: 800; letter-spacing: .22em; }
+      .nav-items { display: flex; gap: 22px; margin-right: auto; color: var(--muted); font-size: 12px; }
+      .nav-items a:first-child { color: var(--ink); }
+      .nav-cta { padding: 8px 18px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-size: 12px; }
+
+      .page-note {
+        width: var(--content);
+        margin: 28px auto 0;
+        padding: 12px 0;
+        border-bottom: 1px dashed var(--line);
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .page-note strong { color: var(--ink); }
+
+      .section {
+        position: relative;
+        width: var(--content);
+        min-height: 720px;
+        margin: 48px auto 0;
+        padding: 42px 0;
+        border-bottom: 1px solid var(--ink);
+      }
+      .section::before {
+        position: absolute;
+        top: 8px;
+        left: 0;
+        color: var(--muted);
+        content: attr(data-label);
+        font-size: 11px;
+        letter-spacing: .13em;
+      }
+      .section-index {
+        position: absolute;
+        top: 8px;
+        right: 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .hero-layout,
+      .feature-layout,
+      .purchase-layout {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 44px;
+        align-items: center;
+        min-height: 620px;
+      }
+      .copy-block { max-width: 420px; }
+      .wire-label {
+        display: inline-block;
+        margin-bottom: 18px;
+        padding: 4px 7px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: .12em;
+      }
+      .title-lines { display: grid; gap: 9px; margin: 0 0 24px; }
+      .title-lines span {
+        display: block;
+        width: min(100%, 365px);
+        height: 20px;
+        background: var(--ink);
+      }
+      .title-lines span:nth-child(2) { width: 82%; }
+      .title-lines span:nth-child(3) { width: 60%; }
+      .copy-lines { display: grid; gap: 8px; margin: 0 0 28px; }
+      .copy-lines span { display: block; width: 100%; height: 9px; background: var(--soft-line); }
+      .copy-lines span:nth-child(2) { width: 92%; }
+      .copy-lines span:nth-child(3) { width: 76%; }
+      .copy-lines span:nth-child(4) { width: 64%; }
+      .rule { width: 100%; height: 1px; margin: 20px 0; background: var(--ink); }
+      .meta-lines { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: 11px; }
+      .button-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+      .wire-button { min-width: 108px; padding: 9px 14px; border: 1px solid var(--ink); background: transparent; text-align: center; font-size: 11px; }
+      .wire-button.dark { background: var(--ink); color: var(--paper); }
+
+      .visual-box {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 470px;
+        border: 1px solid var(--ink);
+        background:
+          linear-gradient(90deg, transparent 49.8%, var(--soft-line) 50%, transparent 50.2%),
+          linear-gradient(transparent 49.8%, var(--soft-line) 50%, transparent 50.2%),
+          var(--fill);
+      }
+      .visual-box::before,
+      .visual-box::after {
+        position: absolute;
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .visual-box::before { top: 10px; left: 12px; content: "MEDIA / PRODUCT IMAGE"; }
+      .visual-box::after { right: 12px; bottom: 10px; content: "16:9 / FULL BLEED"; }
+      .product-placeholder {
+        position: relative;
+        width: min(76%, 420px);
+        aspect-ratio: 1.65;
+        border: 2px solid var(--ink);
+        background: var(--paper);
+        transform: rotate(-7deg);
+      }
+      .product-placeholder::before,
+      .product-placeholder::after {
+        position: absolute;
+        top: 50%;
+        width: 23%;
+        height: 62%;
+        border: 1px solid var(--ink);
+        border-radius: 50%;
+        content: "";
+        transform: translateY(-50%);
+      }
+      .product-placeholder::before { left: -9%; }
+      .product-placeholder::after { right: -9%; }
+      .product-center-line { position: absolute; top: 15%; bottom: 15%; left: 50%; border-left: 1px dashed var(--line); }
+      .product-tag { position: absolute; right: 10%; bottom: 12%; padding: 4px 7px; border: 1px solid var(--ink); background: var(--paper); font-size: 10px; }
+
+      .sequence-section { min-height: 1040px; }
+      .sequence-stage {
+        position: sticky;
+        top: 110px;
+        display: grid;
+        grid-template-columns: 4fr 8fr;
+        gap: 44px;
+        align-items: center;
+        min-height: 720px;
+      }
+      .sequence-stage .visual-box { min-height: 560px; }
+      .scroll-path {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 22px;
+        width: 1px;
+        border-left: 1px dashed var(--line);
+      }
+      .scroll-path i { position: absolute; left: -4px; width: 7px; height: 7px; border: 1px solid var(--ink); background: var(--paper); }
+      .scroll-path i:nth-child(1) { top: 10%; }
+      .scroll-path i:nth-child(2) { top: 50%; }
+      .scroll-path i:nth-child(3) { top: 90%; }
+      .sequence-copy { padding-left: 56px; }
+      .sequence-copy .copy-lines { max-width: 290px; }
+      .frame-steps { display: grid; gap: 10px; margin-top: 30px; }
+      .frame-step { display: grid; grid-template-columns: 54px 1fr; gap: 10px; align-items: center; color: var(--muted); font-size: 11px; }
+      .frame-step b { color: var(--ink); font-weight: 400; }
+      .frame-step span { height: 1px; background: var(--line); }
+
+      .feature-layout.reverse { grid-template-columns: 7fr 5fr; }
+      .feature-layout.reverse .visual-box { order: 2; }
+      .feature-layout.reverse .copy-block { order: 1; }
+      .point-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+      .point-list span { padding: 7px 10px; border: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+      .demo-box { margin-top: 28px; padding: 16px; border: 1px solid var(--ink); }
+      .demo-box .demo-title { display: block; margin-bottom: 14px; color: var(--muted); font-size: 10px; letter-spacing: .1em; }
+      .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+      .chip { padding: 7px 10px; border: 1px solid var(--line); font-size: 11px; }
+      .chip.active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+      .demo-action { display: flex; justify-content: space-between; gap: 16px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--soft-line); color: var(--muted); font-size: 11px; }
+
+      .spec-layout { min-height: 660px; }
+      .spec-layout .copy-block { max-width: none; }
+      .spec-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 32px; border-top: 1px solid var(--ink); }
+      .spec-cell { min-height: 70px; padding: 12px 16px 12px 0; border-bottom: 1px solid var(--line); }
+      .spec-cell small { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; }
+      .spec-cell span { display: block; height: 9px; width: 72%; background: var(--fill-dark); }
+      .faq-list { margin-top: 30px; border-top: 1px solid var(--ink); }
+      .faq-row { display: grid; grid-template-columns: 1fr 24px; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+      .faq-row span:first-child { height: 9px; width: 58%; background: var(--fill-dark); }
+      .faq-row span:last-child { width: 18px; height: 18px; border: 1px solid var(--ink); text-align: center; line-height: 15px; }
+
+      .price-placeholder { display: flex; align-items: baseline; gap: 8px; margin: 28px 0 10px; }
+      .price-placeholder strong { width: 170px; height: 42px; background: var(--ink); }
+      .price-placeholder span { width: 22px; height: 12px; background: var(--fill-dark); }
+      .footer { display: flex; justify-content: space-between; gap: 20px; width: var(--content); margin: 0 auto; padding: 26px 0 40px; color: var(--muted); font-size: 11px; }
+
+      .mobile-preview { display: none; }
+      .is-mobile .section,
+      .is-mobile .page-note,
+      .is-mobile .footer { --content: calc(100vw - 40px); }
+      .is-mobile .site-nav { padding: 0 20px; }
+      .is-mobile .nav-items { display: none; }
+      .is-mobile .site-nav { justify-content: space-between; }
+      .is-mobile .hero-layout,
+      .is-mobile .feature-layout,
+      .is-mobile .feature-layout.reverse,
+      .is-mobile .purchase-layout { display: flex; flex-direction: column; gap: 22px; align-items: stretch; min-height: 0; padding-top: 18px; }
+      .is-mobile .section { min-height: 760px; margin-top: 36px; padding-top: 40px; }
+      .is-mobile .visual-box { min-height: 380px; order: 1 !important; }
+      .is-mobile .copy-block { order: 2 !important; max-width: none; }
+      .is-mobile .sequence-section { min-height: 980px; }
+      .is-mobile .sequence-stage { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 22px; min-height: 760px; align-items: stretch; }
+      .is-mobile .sequence-stage .visual-box { min-height: 420px; }
+      .is-mobile .sequence-copy { order: 2; padding-left: 0; }
+      .is-mobile .scroll-path { display: none; }
+      .is-mobile .spec-grid { grid-template-columns: 1fr; }
+      .is-mobile .footer { display: block; }
+      .is-mobile .footer span + span { display: block; margin-top: 10px; }
+
+      @media (max-width: 760px) {
+        :root { --content: calc(100vw - 40px); }
+        .utility-bar { top: auto; right: 10px; bottom: 10px; }
+        .site-nav { min-height: 62px; padding: 0 20px; }
+        .nav-items { display: none; }
+        .site-nav { justify-content: space-between; }
+        .section { min-height: 760px; margin-top: 36px; padding-top: 40px; }
+        .hero-layout,
+        .feature-layout,
+        .feature-layout.reverse,
+        .purchase-layout { display: flex; flex-direction: column; gap: 22px; align-items: stretch; min-height: 0; padding-top: 18px; }
+        .visual-box { min-height: 380px; order: 1 !important; }
+        .copy-block { order: 2 !important; max-width: none; }
+        .sequence-section { min-height: 980px; }
+        .sequence-stage { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 22px; min-height: 760px; align-items: stretch; }
+        .sequence-stage .visual-box { min-height: 420px; }
+        .sequence-copy { order: 2; padding-left: 0; }
+        .scroll-path { display: none; }
+        .spec-grid { grid-template-columns: 1fr; }
+        .footer { display: block; }
+        .footer span + span { display: block; margin-top: 10px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wireframe-shell" id="wireframe">
+      <div class="utility-bar" aria-label="线框图视图控制">
+        <span>WIREFRAME / 01</span>
+        <button class="is-active" data-view="desktop">Desktop</button>
+        <button data-view="mobile">Mobile</button>
+      </div>
+
+      <header class="site-nav">
+        <a class="brand" href="#hero">NEXUS</a>
+        <nav class="nav-items" aria-label="页面章节">
+          <a href="#hero">Nexus</a>
+          <a href="#design">Design</a>
+          <a href="#switch">Switch</a>
+          <a href="#control">Control</a>
+          <a href="#specifications">Specs</a>
+        </nav>
+        <a class="nav-cta" href="#purchase">预约体验</a>
+      </header>
+
+      <div class="page-note"><strong>页面对象：</strong> `index.html` 单页长滚动官网｜<strong>线框重点：</strong> 信息层级、产品视觉占位、滚动节奏和移动端重排</div>
+
+      <main>
+        <section class="section" id="hero" data-label="01 / HERO">
+          <span class="section-index">100svh / 首屏</span>
+          <div class="hero-layout">
+            <div class="copy-block">
+              <span class="wire-label">EYEBROW / PRODUCT POSITIONING</span>
+              <div class="title-lines" aria-label="标题占位"><span></span><span></span><span></span></div>
+              <div class="copy-lines" aria-label="说明文字占位"><span></span><span></span><span></span><span></span></div>
+              <div class="rule"></div>
+              <div class="meta-lines"><span>连接方式</span><span>平台兼容</span><span>状态信息</span></div>
+              <div class="button-row"><span class="wire-button dark">主要 CTA</span><span class="wire-button">次要 CTA</span></div>
+            </div>
+            <div class="visual-box"><div class="product-placeholder"><i class="product-center-line"></i><span class="product-tag">PRODUCT HERO</span></div></div>
+          </div>
+        </section>
+
+        <section class="section sequence-section" id="design" data-label="02 / DESIGN">
+          <span class="section-index">290vh - 310vh / Sticky</span>
+          <div class="sequence-stage">
+            <div class="scroll-path"><i></i><i></i><i></i></div>
+            <div class="sequence-copy">
+              <span class="wire-label">SCROLL STORY / FRAME SEQUENCE</span>
+              <div class="title-lines"><span></span><span></span><span></span></div>
+              <div class="copy-lines"><span></span><span></span><span></span></div>
+              <div class="frame-steps"><div class="frame-step"><b>01 / HERO</b><span></span></div><div class="frame-step"><b>02 / DETAIL</b><span></span></div><div class="frame-step"><b>03 / TURN</b><span></span></div></div>
+            </div>
+            <div class="visual-box"><div class="product-placeholder"><i class="product-center-line"></i><span class="product-tag">416 FRAME STATES</span></div></div>
+          </div>
+        </section>
+
+        <section class="section" id="switch" data-label="03 / SWITCH">
+          <span class="section-index">100svh / 交互演示</span>
+          <div class="feature-layout reverse">
+            <div class="visual-box"><div class="product-placeholder"><i class="product-center-line"></i><span class="product-tag">PLATFORM STATE</span></div></div>
+            <div class="copy-block">
+              <span class="wire-label">FEATURE / ONE-TAP SWITCH</span>
+              <div class="title-lines"><span></span><span></span><span></span></div>
+              <div class="copy-lines"><span></span><span></span><span></span></div>
+              <div class="demo-box"><span class="demo-title">INTERACTION MODULE</span><div class="chips"><span class="chip active">PC</span><span class="chip">Switch</span><span class="chip">手机</span><span class="chip">主机</span></div><div class="demo-action"><span>当前连接状态</span><span>切换平台 →</span></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="control" data-label="04 / CONTROL">
+          <span class="section-index">100svh / 产品特写</span>
+          <div class="feature-layout">
+            <div class="copy-block">
+              <span class="wire-label">FEATURE / CONTROL & DURABILITY</span>
+              <div class="title-lines"><span></span><span></span><span></span></div>
+              <div class="copy-lines"><span></span><span></span><span></span><span></span></div>
+              <div class="point-list"><span>摇杆</span><span>扳机</span><span>按键</span><span>连接稳定性</span></div>
+            </div>
+            <div class="visual-box"><div class="product-placeholder"><i class="product-center-line"></i><span class="product-tag">DETAIL / MACRO</span></div></div>
+          </div>
+        </section>
+
+        <section class="section" id="compatibility" data-label="05 / COMPATIBILITY">
+          <span class="section-index">100svh / SKU 选择</span>
+          <div class="feature-layout reverse">
+            <div class="visual-box"><div class="product-placeholder"><i class="product-center-line"></i><span class="product-tag">PRODUCT / SKU VIEW</span></div></div>
+            <div class="copy-block">
+              <span class="wire-label">FEATURE / PLATFORM COMPATIBILITY</span>
+              <div class="title-lines"><span></span><span></span><span></span></div>
+              <div class="copy-lines"><span></span><span></span><span></span></div>
+              <div class="point-list"><span class="chip active">通用三模</span><span>PS 授权</span><span>Xbox 授权</span><span>Lightning MFI</span></div>
+              <div class="rule"></div>
+              <div class="meta-lines"><span>当前选择：通用三模</span><span>PC / Switch / 手机</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="specifications" data-label="06 / SPECIFICATIONS">
+          <span class="section-index">132svh / 信息收束</span>
+          <div class="spec-layout">
+            <div class="copy-block">
+              <span class="wire-label">DECISION INFO / SPECS + FAQ</span>
+              <div class="title-lines"><span></span><span></span><span></span></div>
+              <div class="spec-grid">
+                <div class="spec-cell"><small>连接</small><span></span></div><div class="spec-cell"><small>平台</small><span></span></div>
+                <div class="spec-cell"><small>操控</small><span></span></div><div class="spec-cell"><small>配件</small><span></span></div>
+                <div class="spec-cell"><small>授权</small><span></span></div><div class="spec-cell"><small>状态</small><span></span></div>
+              </div>
+              <div class="faq-list"><div class="faq-row"><span></span><span>+</span></div><div class="faq-row"><span></span><span>+</span></div><div class="faq-row"><span></span><span>+</span></div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="purchase" data-label="07 / PURCHASE">
+          <span class="section-index">70svh - 90svh / 转化收束</span>
+          <div class="purchase-layout">
+            <div class="copy-block">
+              <span class="wire-label">CONVERSION / FINAL CTA</span>
+              <div class="title-lines"><span></span><span></span><span></span></div>
+              <div class="price-placeholder"><strong></strong><span></span></div>
+              <div class="button-row"><span class="wire-button dark">京东购买</span><span class="wire-button">天猫购买</span></div>
+              <div class="copy-lines" style="margin-top: 24px;"><span></span><span></span></div>
+            </div>
+            <div class="visual-box"><div class="product-placeholder"><i class="product-center-line"></i><span class="product-tag">FINAL PRODUCT FRAME</span></div></div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer"><span>NEXUS / WIREFRAME</span><span>概念页面结构稿 · 不含真实商品交互和业务逻辑</span></footer>
+    </div>
+
+    <script>
+      const shell = document.querySelector('#wireframe');
+      document.querySelectorAll('[data-view]').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('[data-view]').forEach((item) => item.classList.remove('is-active'));
+          button.classList.add('is-active');
+          shell.classList.toggle('is-mobile', button.dataset.view === 'mobile');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    </script>
+  </body>
+</html>
