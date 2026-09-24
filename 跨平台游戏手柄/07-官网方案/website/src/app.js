@@ -1,12 +1,14 @@
 import './styles.css';
 
+const BASE_URL = import.meta.env.BASE_URL;
+const assetUrl = (path) => `${BASE_URL}${path.replace(/^\/+/, '')}`;
 const FRAME_COUNT = 416;
 const HERO_FRAME_START = 0;
 const HERO_FRAME_END = 228;
 const APPEARANCE_FRAME_END = 415;
 const SEQUENCE_FRAME_LENGTH = APPEARANCE_FRAME_END - HERO_FRAME_START + 1;
 const MOBILE_FRAME_COUNT = 200;
-const framePath = (index) => `/frames/f_${String(Math.max(1, Math.min(FRAME_COUNT, index + 1))).padStart(4, '0')}.webp`;
+const framePath = (index) => assetUrl(`/frames/f_${String(Math.max(1, Math.min(FRAME_COUNT, index + 1))).padStart(4, '0')}.webp`);
 
 const app = document.querySelector('#app');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -88,27 +90,27 @@ const siteMarkup = `
       </section>
 
       <section class="feature-section feature-switch" id="switch" data-section="switch" data-theme="blue">
-        <div class="feature-visual scene" data-scene><div class="scene-halo halo-blue"></div><img class="feature-frame platform-visual scene-frame" src="/platforms/connection-map.png" alt="Nexus 跨平台手柄全平台连接展示图" width="1600" height="900" /><canvas class="platform-morph" data-platform-morph aria-hidden="true"></canvas><div class="hero-shade"></div></div>
+        <div class="feature-visual scene" data-scene><div class="scene-halo halo-blue"></div><img class="feature-frame platform-visual scene-frame" src="${assetUrl('/platforms/connection-map.png')}" alt="Nexus 跨平台手柄全平台连接展示图" width="1600" height="900" /><canvas class="platform-morph" data-platform-morph aria-hidden="true"></canvas><div class="hero-shade"></div></div>
         <div class="feature-copy copy-right">
           <p class="eyebrow">02 / SWITCH</p>
           <h2>按一下，<br />换到下一个平台。</h2>
           <p>配对记忆和连接反馈被收进一个确定动作。你只需要决定去哪里，不需要重复设置。</p>
-          <div class="switch-demo" aria-label="一键切换概念演示"><div class="platform-row" role="radiogroup" aria-label="选择连接平台"><span class="platform-thumb" aria-hidden="true"></span><button class="platform-chip" role="radio" aria-checked="false" data-platform="PC" data-platform-image="/platforms/pc.png">PC</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="Switch" data-platform-image="/platforms/switch.png">Switch</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="PS5" data-platform-image="/platforms/ps5.png">PS5</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="Xbox" data-platform-image="/platforms/xbox.png">Xbox</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="Mobile" data-platform-image="/platforms/mobile.png">手机</button></div><p class="demo-status" aria-live="polite">等待选择 · 全平台</p></div>
+          <div class="switch-demo" aria-label="一键切换概念演示"><div class="platform-row" role="radiogroup" aria-label="选择连接平台"><span class="platform-thumb" aria-hidden="true"></span><button class="platform-chip" role="radio" aria-checked="false" data-platform="PC" data-platform-image="${assetUrl('/platforms/pc.png')}">PC</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="Switch" data-platform-image="${assetUrl('/platforms/switch.png')}">Switch</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="PS5" data-platform-image="${assetUrl('/platforms/ps5.png')}">PS5</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="Xbox" data-platform-image="${assetUrl('/platforms/xbox.png')}">Xbox</button><button class="platform-chip" role="radio" aria-checked="false" data-platform="Mobile" data-platform-image="${assetUrl('/platforms/mobile.png')}">手机</button></div><p class="demo-status" aria-live="polite">等待选择 · 全平台</p></div>
           <div class="chapter-points"><span>配对记忆</span><span>三模连接</span><span>即时反馈</span></div>
         </div><span class="stage-index">02 / 06</span>
       </section>
 
       <section class="control-sequence" id="control" data-section="control" data-theme="violet" data-control-sequence>
         <article class="control-panel is-active" data-control-panel data-panel-index="0" aria-label="霍尔摇杆">
-          <div class="control-panel-visual scene" data-scene><img class="control-detail-image control-image-stick" src="/control/joystick.png" alt="Nexus 霍尔摇杆细节" width="1254" height="1254" /><div class="control-panel-shade"></div></div>
+          <div class="control-panel-visual scene" data-scene><img class="control-detail-image control-image-stick" src="${assetUrl('/control/joystick.png')}" alt="Nexus 霍尔摇杆细节" width="1254" height="1254" /><div class="control-panel-shade"></div></div>
           <div class="control-panel-copy copy-left"><p class="eyebrow">03 / CONTROL / STICK</p><h2>霍尔摇杆：<br />把漂移留在过去。</h2><p>采用霍尔或 TMR 非接触式摇杆，不使用碳膜。方向输出保持线性，回中更稳定，长期高频操作后仍能维持清楚的控制边界。</p><div class="control-metrics"><div><strong>12 个月</strong><span>无可感知漂移</span></div><div><strong>≤ 8 ms</strong><span>2.4G 无线延迟</span></div><div><strong>1000 Hz</strong><span>PC 有线回报率</span></div></div></div><span class="stage-index">03 / 06</span>
         </article>
         <article class="control-panel" data-control-panel data-panel-index="1" aria-label="霍尔扳机">
-          <div class="control-panel-visual scene" data-scene><img class="control-detail-image control-image-trigger" src="/control/trigger.png" alt="Nexus 霍尔扳机细节" width="1254" height="1254" /><div class="control-panel-shade"></div></div>
+          <div class="control-panel-visual scene" data-scene><img class="control-detail-image control-image-trigger" src="${assetUrl('/control/trigger.png')}" alt="Nexus 霍尔扳机细节" width="1254" height="1254" /><div class="control-panel-shade"></div></div>
           <div class="control-panel-copy copy-right"><p class="eyebrow">03 / CONTROL / TRIGGER</p><h2>霍尔扳机：<br />把力度调到顺手。</h2><p>通过霍尔效应检测与可调键程，在快速触发和精细控制之间切换。不少于三档，切换后手感可复现，不需要重新适应。</p><div class="control-metrics"><div><strong>≥ 3 档</strong><span>可调扳机键程</span></div><div><strong>霍尔效应</strong><span>非接触式检测</span></div><div><strong>三模连接</strong><span>有线 / 2.4G / 蓝牙</span></div></div></div><span class="stage-index">03 / 06</span>
         </article>
         <article class="control-panel" data-control-panel data-panel-index="2" aria-label="按键与方向键">
-          <div class="control-panel-visual scene" data-scene><img class="control-detail-image control-image-dpad" src="/control/dpad.png" alt="Nexus 十字方向键细节" width="1254" height="1254" /><div class="control-panel-shade"></div></div>
+          <div class="control-panel-visual scene" data-scene><img class="control-detail-image control-image-dpad" src="${assetUrl('/control/dpad.png')}" alt="Nexus 十字方向键细节" width="1254" height="1254" /><div class="control-panel-shade"></div></div>
           <div class="control-panel-copy copy-left"><p class="eyebrow">03 / CONTROL / INPUT</p><h2>按键与方向：<br />每一次输入都算数。</h2><p>分体式十字方向键保持四向独立反馈，斜向操作边界更清楚。ABXY 与方向键围绕长期高频使用校准，目标两年内稳定触发、不断触。</p><div class="control-metrics"><div><strong>2 年</strong><span>ABXY 耐久目标</span></div><div><strong>磁吸键帽</strong><span>Switch / Xbox 互换</span></div><div><strong>4 套</strong><span>板载配置保存</span></div></div></div><span class="stage-index">03 / 06</span>
         </article>
       </section>
@@ -118,8 +120,8 @@ const siteMarkup = `
           <div class="scene-backdrop"></div>
           <div class="scene-halo halo-violet"></div>
           <div class="dock-product">
-            <img class="dock-layer dock-base-layer" src="/dock/charging-dock.png" alt="" width="1863" height="1019" />
-            <img class="dock-layer dock-handle-layer" src="/dock/controller.png" alt="Nexus 跨平台游戏手柄" width="1863" height="1019" />
+            <img class="dock-layer dock-base-layer" src="${assetUrl('/dock/charging-dock.png')}" alt="" width="1863" height="1019" />
+            <img class="dock-layer dock-handle-layer" src="${assetUrl('/dock/controller.png')}" alt="Nexus 跨平台游戏手柄" width="1863" height="1019" />
           </div>
           <div class="hero-shade"></div>
           <div class="dock-contact-flash" aria-hidden="true"></div>
@@ -133,7 +135,7 @@ const siteMarkup = `
         </div>
       </section>
 
-      <section class="purchase-section" id="purchase" data-section="purchase" data-theme="gold"><div class="purchase-visual scene"><img class="purchase-frame scene-frame" src="/purchase/purchase-hero.png" alt="Nexus 手柄购买区展示图" width="1672" height="941" /><div class="hero-shade"></div></div><div class="purchase-copy"><p class="eyebrow">05 / READY WHEN YOU ARE</p><h2>掌控，<br />不设边界。</h2><div class="purchase-row"><div><span class="price-label">日常价</span><strong class="price">799 <small>元</small></strong></div><div class="purchase-actions"><button class="button button-gold" data-toast="京东入口即将开放">京东购买</button><button class="button button-outline" data-toast="天猫入口即将开放">天猫购买</button></div></div><p class="purchase-note">当前为概念模拟，电商入口暂不执行真实跳转。</p></div><span class="stage-index">05 / 06</span></section>
+      <section class="purchase-section" id="purchase" data-section="purchase" data-theme="gold"><div class="purchase-visual scene"><img class="purchase-frame scene-frame" src="${assetUrl('/purchase/purchase-hero.png')}" alt="Nexus 手柄购买区展示图" width="1672" height="941" /><div class="hero-shade"></div></div><div class="purchase-copy"><p class="eyebrow">05 / READY WHEN YOU ARE</p><h2>掌控，<br />不设边界。</h2><div class="purchase-row"><div><span class="price-label">日常价</span><strong class="price">799 <small>元</small></strong></div><div class="purchase-actions"><button class="button button-gold" data-toast="京东入口即将开放">京东购买</button><button class="button button-outline" data-toast="天猫入口即将开放">天猫购买</button></div></div><p class="purchase-note">当前为概念模拟，电商入口暂不执行真实跳转。</p></div><span class="stage-index">05 / 06</span></section>
 
       <section class="spec-section" id="specifications" data-section="specifications" data-theme="gold">
         <div class="spec-copy copy-left"><p class="eyebrow">06 / SPECIFICATIONS</p><h2>决策信息，<br />保持清楚。</h2><div class="spec-grid"><div><span>连接</span><strong>2.4G / 蓝牙 / 有线</strong></div><div><span>平台</span><strong>PC / Switch / PS5 / Xbox / 手机</strong></div><div><span>操控</span><strong>霍尔或 TMR 摇杆</strong></div><div><span>配件</span><strong>充电底座概念方案</strong></div><div><span>授权</span><strong>按 SKU 提供平台授权版本</strong></div><div><span>状态</span><strong>概念模拟，不接入真实业务</strong></div></div><div class="faq-list"><button class="faq-item" aria-expanded="false"><span>是否需要重新配对？</span><span class="faq-icon">+</span><span class="faq-answer">不需要。概念方案将平台连接记忆收进手柄上的切换动作。</span></button><button class="faq-item" aria-expanded="false"><span>是否包含充电底座？</span><span class="faq-icon">+</span><span class="faq-answer">页面仅展示充电底座概念，不代表最终包装清单。</span></button><button class="faq-item" aria-expanded="false"><span>这是真实发售页面吗？</span><span class="faq-icon">+</span><span class="faq-answer">不是。当前网站为 Nexus 产品概念模拟，不接入支付、订单、留资或真实电商链接。</span></button></div></div><span class="stage-index">06 / 06</span>
